@@ -22,7 +22,10 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
              echo ("<option>$id</option>");
             }
             ?>
-        </select>
+        </select>    
+        <label for="doses">doses : 
+            <input name="doses" type="number" value="0">
+        </label>
       </div>
       <p/>
       <button class="btn btn-primary" type="submit">Submit form</button>
