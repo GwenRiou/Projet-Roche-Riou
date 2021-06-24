@@ -6,6 +6,7 @@ require ('../controller/ControllerCentre.php');
 require ('../controller/ControllerPatient.php');
 require ('../controller/ControllerCave.php');
 require ('../controller/ControllerRecolte.php');
+require ('../controller/ControllerRendezvous.php');
 // --- récupération de l'action passée dans l'URL
 $query_string = $_SERVER['QUERY_STRING'];
 
@@ -52,6 +53,11 @@ switch ($action) {
     case "patientCreate" :
     case "patientCreated" :    
         ControllerPatient::$action($args);
+        break;
+        
+    case "rendezvousReadAll" :  
+    case "rendezvousSelection" :
+        ControllerRendezvous::$action($args);
         break;
     
     case "recolteReadAll" :
