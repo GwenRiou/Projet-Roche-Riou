@@ -24,8 +24,11 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
           <?php
           // La liste des centres est dans une variable $results             
           foreach ($results as $element) {
-           printf("<tr><td>%d</td><td>%s</td><td>%s</td></tr>", $element->getId(), 
-             $element->getLabel(), $element->getAdresse());
+            printf("<tr><td>%d</td><td>%s</td>", $element->getId(), 
+             $element->getLabel());
+           printf("<td><a href='http://maps.google.com/maps?f=d&amp;daddr=%s' target='_blank'>%s</a></td>",
+                   $element->getAdresse(),$element->getAdresse());
+           echo "</tr>";
           }
           ?>
       </tbody>
