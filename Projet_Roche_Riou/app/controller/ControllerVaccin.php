@@ -76,7 +76,8 @@ class ControllerVaccin {
  public static function vaccinUpdate() {
   // ajouter une validation des informations du formulaire
   $id = $_GET['id'];
-  $results = ModelVaccin::update($id);
+  $doses = $_GET['doses'];
+  $results = ModelVaccin::update($id, $doses);
   // ----- Construction chemin de la vue
   include 'config.php';
   $vue = $root . '/app/view/vaccin/viewUpdate.php';

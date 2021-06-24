@@ -28,7 +28,7 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
     
     include $root . '/app/view/fragment/fragmentCaveFooter.html';
     ?>
-    <!-- ----- fin viewInserted -->    
+    <!-- ----- fin viewInserted -->
 
     
     

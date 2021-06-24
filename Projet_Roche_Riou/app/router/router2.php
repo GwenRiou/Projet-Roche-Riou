@@ -1,13 +1,11 @@
 
-<!-- ----- debut Router2 -->
+<!-- ----- debut Router1 -->
 <?php
 require ('../controller/ControllerVaccin.php');
 require ('../controller/ControllerCentre.php');
 require ('../controller/ControllerPatient.php');
 require ('../controller/ControllerCave.php');
 require ('../controller/ControllerRecolte.php');
-
-require ('../controller/ControllerRendezvous.php');
 // --- récupération de l'action passée dans l'URL
 $query_string = $_SERVER['QUERY_STRING'];
 
@@ -56,11 +54,6 @@ switch ($action) {
         ControllerPatient::$action($args);
         break;
     
-    case "rendezvousReadAll" :  
-    case "rendezvousSelection" :
-        ControllerRendezvous::$action($args);
-        break;
-    
     case "recolteReadAll" :
     case "recolteReadOne" :
     case "recolteReadId" :
@@ -79,5 +72,5 @@ switch ($action) {
         ControllerCave::$action($args);
 }
 ?>
-<!-- ----- Fin Router2 -->
+<!-- ----- Fin Router1 -->
 

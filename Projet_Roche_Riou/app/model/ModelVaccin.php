@@ -126,10 +126,10 @@ class ModelVaccin {
   }
  }
 
- public static function update() {
+ public static function update($id, $doses) {
   try {
   $database = Model::getInstance();
-  $query = "Update vaccin set (:doses) where :id";
+  $query = "UPDATE vaccin SET doses=$doses WHERE id=$id";
   $statement = $database->prepare($query);
    $statement->execute([
      'id' => $id,
