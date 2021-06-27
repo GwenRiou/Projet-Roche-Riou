@@ -98,14 +98,16 @@ class ModelStock {
   }
  }
  
- public static function getOne($label) {
+ public static function getAllVaccin($label) {
   try {
    $database = Model::getInstance();
+   //On récupère le nombre de vaccins différents dans un centre particulier
    $query = "SELECT COUNT(*) FROM stock s, centre c, vaccin v WHERE s.centre_id = c.id AND s.vaccin_id = v.id AND c.label = '$label' ORDER BY v.label ASC";
    $statement = $database->prepare($query);
    $statement->execute(['label' => $label]);
    $nb_vaccins = $statement->fetchColumn();
    
+   //On récupère les id de chaque vaccin ainsi que leur nom afin de les afficher et de plus tard faire correspondre les doses
    $query = "SELECT s.vaccin_id, v.label FROM stock s, centre c, vaccin v WHERE s.centre_id = c.id AND s.vaccin_id = v.id AND c.label = '$label' ORDER BY v.label ASC";
    $statement = $database->prepare($query);
    $statement->execute(['label' => $label]);
@@ -200,6 +202,38 @@ class ModelStock {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
    //printf("%s", $id);
    return -1;
+  }
+ }
+ 
+/* public static function getAllLabel() {
+  try {
+   $database = Model::getInstance();
+   $query = "select label from centre";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }*/
+ 
+ public static function reapprovisionnement() {
+  try {
+   $database = Model::getInstance();
+   $limite = 5;
+   //foreach($centre_label as $value) {
+        $query = "SELECT c.label centre, v.label vaccin, s.quantite, :limite limite FROM centre c, stock s, vaccin v WHERE c.id = s.centre_id AND v.id = s.vaccin_id AND s.quantite < :limite ORDER BY c.label, v.label ASC";
+        $statement = $database->prepare($query);
+        $statement->execute(['limite' => $limite]);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+   //}
+   
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
   }
  }
 

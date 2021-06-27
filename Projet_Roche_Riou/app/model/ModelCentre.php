@@ -74,7 +74,8 @@ class ModelCentre {
  public static function getAllLabel() {
   try {
    $database = Model::getInstance();
-   $query = "select label from centre";
+   //On sélectionne les labels des centres ayant au moins un vaccin de disponible
+   $query = "SELECT DISTINCT c.label FROM centre c LEFT JOIN stock s ON s.centre_id = c.id WHERE s.quantite IS NOT NULL";
    $statement = $database->prepare($query);
    $statement->execute();
    $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);

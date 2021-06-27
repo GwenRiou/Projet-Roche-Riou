@@ -54,7 +54,7 @@ $target = $args['target'];
  // Affiche un Stock particulier (label)
  public static function stockReadOne($args) {
   $label = $_GET['label'];
-  $results = ModelStock::getOne($label);
+  $results = ModelStock::getAllVaccin($label);
 
   // ----- Construction chemin de la vue
   include 'config.php';
@@ -125,6 +125,17 @@ $target = $args['target'];
   // ----- Construction chemin de la vue
   include 'config.php';
   $vue = $root . '/app/view/stock/viewDelete.php';
+  require ($vue);
+ }
+ 
+public static function reapprovisionnement() {
+    $results = ModelStock::reapprovisionnement();
+    
+  // ----- Construction chemin de la vue
+  include 'config.php';
+  $vue = $root . '/app/view/innovations/reapprovisionnement.php';
+  if (DEBUG)
+   echo ("ControllerStock : reapprovisionnement : vue = $vue");
   require ($vue);
  }
 }

@@ -62,7 +62,7 @@ switch ($action) {
     case "stockSelect" :
     case "stockReadOne" :
     case "stockUpdate" :
-    case "reaprovisionnement" :
+    case "reapprovisionnement" :
         ControllerStock::$action($args);
         break;
     
