@@ -71,6 +71,20 @@ class ModelCentre {
   }
  }
 
+ public static function getAllLabel() {
+  try {
+   $database = Model::getInstance();
+   $query = "select label from centre";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+ 
  public static function getAll() {
   try {
    $database = Model::getInstance();

@@ -2,6 +2,7 @@
 <!-- ----- debut ControllerStock -->
 <?php
 require_once '../model/ModelStock.php';
+require_once '../model/ModelCentre.php';
 
 class ControllerStock {
  // --- page d'acceuil
@@ -14,7 +15,7 @@ class ControllerStock {
  }
 
  // --- Liste des Stocks
- public static function StockReadAll() {
+ public static function stockReadAll() {
   $results = ModelStock::getAll();
   $centre = ModelCentre::getAll();
   $vaccin = ModelVaccin::getAll();
@@ -37,8 +38,8 @@ class ControllerStock {
  }
 
  // Affiche un formulaire pour sélectionner un id qui existe
- public static function StockReadId($args) {
-     if(DEBUG)echo ("controllerStock:vinReadId:begin</br>");
+ public static function stockReadId($args) {
+     if(DEBUG)echo ("controllerStock:stockReadId:begin</br>");
   $results = ModelStock::getAllId();
   
 $target = $args['target'];
@@ -50,19 +51,32 @@ $target = $args['target'];
   require ($vue);
  }
 
- // Affiche un Stock particulier (id)
- public static function StockReadOne() {
-  $Stock_id = $_GET['id'];
-  $results = ModelStock::getOne($Stock_id);
+ // Affiche un Stock particulier (label)
+ public static function stockReadOne($args) {
+  $label = $_GET['label'];
+  $results = ModelStock::getOne($label);
 
   // ----- Construction chemin de la vue
   include 'config.php';
-  $vue = $root . '/app/view/stock/viewAll.php';
+  $vue = $root . '/app/view/stock/viewUpdate.php';
   require ($vue);
  }
 
+ public static function stockSelect($args) {
+  if(DEBUG) echo("controllerStock:stockReadSelect:begin</br>");
+  $results = ModelCentre::getAllLabel();
+  
+  $target = $args['target'];
+  if(DEBUG) echo("ControlerStock:ReadSelect : target = $target</br>");
+  
+  // ----- Construction chemin de la vue
+  include 'config.php';
+  $vue = $root . '/app/view/stock/viewCentre.php';
+  require ($vue);
+ }
+ 
  // Affiche le formulaire de creation d'un Stock
- public static function StockCreate() {
+ public static function stockCreate() {
   // ----- Construction chemin de la vue
   include 'config.php';
   $vue = $root . '/app/view/stock/viewInsert.php';
@@ -71,7 +85,7 @@ $target = $args['target'];
 
  // Affiche un formulaire pour récupérer les informations d'un nouveau Stock.
  // La clé est gérée par le systeme et pas par l'internaute
- public static function StockCreated() {
+ public static function stockCreated() {
   // ajouter une validation des informations du formulaire
   $results = ModelStock::insert(
       htmlspecialchars($_GET['label']), htmlspecialchars($_GET['adresse'])
@@ -82,19 +96,28 @@ $target = $args['target'];
   require ($vue);
  }
  
- public static function StockDistinctRegion(){
+ public static function stockUpdate() {
+  // ajouter une validation des informations du formulaire
+  $results = ModelStock::update();
+  // ----- Construction chemin de la vue
+  include 'config.php';
+  $vue = $root . '/app/view/stock/viewUpdated.php';
+  require ($vue);
+ }
+ 
+ public static function stockDistinctRegion(){
   $results = ModelStock::getDistinctRegion();
    include 'config.php';
   $vue = $root . '/app/view/stock/viewDistinctRegion.php';
   require ($vue);  
  }
- public static function StockRegionStock(){
+ public static function stockRegionStock(){
   $results = ModelStock::getRegionStock();
    include 'config.php';
   $vue = $root . '/app/view/stock/viewRegionStock.php';
   require ($vue);  
  }
- public static function StockDeleted() {
+ public static function stockDeleted() {
   // ajouter une validation des informations du formulaire
   $id = $_GET['id'];
   echo $id;

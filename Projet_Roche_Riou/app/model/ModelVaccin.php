@@ -56,6 +56,20 @@ class ModelVaccin {
    return NULL;
   }
  }
+ 
+ public static function getAllLabel() {
+  try {
+   $database = Model::getInstance();
+   $query = "select label from vaccin";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
 
  public static function getMany($query) {
   try {
@@ -126,18 +140,19 @@ class ModelVaccin {
   }
  }
 
- public static function update($id, $doses) {
+ public static function update($label, $doses) {
   try {
   $database = Model::getInstance();
-  $query = "UPDATE vaccin SET doses=$doses WHERE id=$id";
+  $query = "UPDATE vaccin SET doses = :doses WHERE label = :label";
   $statement = $database->prepare($query);
    $statement->execute([
-     'id' => $id,
+     'label' => $label,
      'doses' => $doses,
    ]);
-  return $id;
+  return $label;
   } catch (PDOException $e) {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   printf("%s", $label);
    return -1;
   }
  }

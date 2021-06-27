@@ -32,6 +32,7 @@ switch ($action) {
     case "vaccinReadAll" :
     case "vaccinReadOne" :
     case "vaccinReadId" :
+    case "vaccinReadLabel" :
     case "vaccinCreate" :
     case "vaccinCreated" :
     case "vaccinDeleted":
@@ -58,6 +59,10 @@ switch ($action) {
     
     case "stockReadAll" :  
     case "stockReadTotal" :
+    case "stockSelect" :
+    case "stockReadOne" :
+    case "stockUpdate" :
+    case "reaprovisionnement" :
         ControllerStock::$action($args);
         break;
     
@@ -75,8 +80,8 @@ switch ($action) {
         ControllerRecolte::$action($args);
         break;
     
-    case"mesPropositions" :
-        ControllerCave::$action($args);
+    case "reaprovisionnement" :
+        ControllerStock::$action($args);
         break;
     // Tache par défaut
     default:

@@ -98,15 +98,25 @@ class ModelStock {
   }
  }
  
- public static function getOne($centre_id) {
+ public static function getOne($label) {
   try {
    $database = Model::getInstance();
-   $query = "select * from stock where centre_id = :centre_id";
+   $query = "SELECT COUNT(*) FROM stock s, centre c, vaccin v WHERE s.centre_id = c.id AND s.vaccin_id = v.id AND c.label = '$label' ORDER BY v.label ASC";
    $statement = $database->prepare($query);
-   $statement->execute([
-     'centre_id' => $centre_id
-   ]);
-   $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelStock");
+   $statement->execute(['label' => $label]);
+   $nb_vaccins = $statement->fetchColumn();
+   
+   $query = "SELECT s.vaccin_id, v.label FROM stock s, centre c, vaccin v WHERE s.centre_id = c.id AND s.vaccin_id = v.id AND c.label = '$label' ORDER BY v.label ASC";
+   $statement = $database->prepare($query);
+   $statement->execute(['label' => $label]);
+   if ($nb_vaccins > 0) {
+        for ($i=1; $i<=$nb_vaccins; $i++) {
+            $results[] = $statement->fetch(PDO::FETCH_ASSOC);
+        }
+   } else {
+       $results = -2; 
+   }
+   //print_r($results);
    return $results;
   } catch (PDOException $e) {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
@@ -168,8 +178,29 @@ class ModelStock {
  }
 
  public static function update() {
-  echo ("ModelStock : update() TODO ....");
-  return null;
+    try {
+    $database = Model::getInstance();
+    $query = "SELECT id FROM centre WHERE label = :label";
+    $statement = $database->prepare($query);
+    $statement->execute(['label' => $_GET['label']]);
+    $id = $statement->fetchColumn();
+    
+    foreach ($_GET as $key => $value) {
+        $query = "UPDATE stock SET quantite = quantite + :doses WHERE vaccin_id = :vaccin_id AND centre_id = :id";
+        $statement = $database->prepare($query);
+        $statement->execute([
+            'vaccin_id' => $key, 
+            'doses' => $value, 
+            'id' => $id
+        ]);
+    }
+  
+  return $id;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   //printf("%s", $id);
+   return -1;
+  }
  }
 
  public static function delete($centre_id) {

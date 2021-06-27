@@ -23,7 +23,7 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
                 <?php 
                 foreach ($centre as $val) {
                     foreach ($results as $element) {
-                        if ($val->getId() === $element->getCentre_id()) { // on ne prend que les données du centre conserné  
+                        if ($val->getId() === $element->getCentre_id()) { // on ne prend que les données du centre concerné  
                             foreach ($vaccin as $valeur) {
                                 if ($element->getVaccin_id() === $valeur->getId()) {
 
