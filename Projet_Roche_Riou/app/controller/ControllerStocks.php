@@ -160,7 +160,7 @@ $target = $args['target'];
   // ----- Construction chemin de la vue
   include 'config.php';
   $target = $args['target'];
-  $vue = $root . '/app/view/innovations/reapLimite.php';
+  $vue = $root . '/app/view/innovations/viewReapLimite.php';
   if (DEBUG)
    echo ("ControllerStock : chooseLimit : vue = $vue");
   require ($vue);
@@ -171,7 +171,7 @@ public static function reapprovisionnement() {
     
   // ----- Construction chemin de la vue
   include 'config.php';
-  $vue = $root . '/app/view/innovations/reapprovisionnement.php';
+  $vue = $root . '/app/view/innovations/viewReap.php';
   if (DEBUG)
    echo ("ControllerStock : reapprovisionnement : vue = $vue");
   require ($vue);

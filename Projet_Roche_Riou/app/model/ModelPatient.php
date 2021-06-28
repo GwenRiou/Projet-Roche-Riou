@@ -137,7 +137,7 @@ class ModelPatient {
     return NULL;         
      }
  }
- public static function insert($nom,$prenom, $adresse) {
+ public static function insert($nom, $prenom, $adresse) {
   try {
    $database = Model::getInstance();
 

@@ -43,6 +43,7 @@ switch ($action) {
     case "centreReadAll" :
     case "centreReadOne" :
     case "centreReadId" :
+    case "centreReadLabel" :
     case "centreCreate" :
     case "centreCreated" :
     case "centreDistinctRegion" :

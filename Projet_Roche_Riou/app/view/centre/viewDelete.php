@@ -13,7 +13,7 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
     <!-- ===================================================== -->
     <?php
     if ($results!=-1) {
-     echo ("<h3>Le producteur a été supprimé </h3>");
+     echo ("<h3>Le centre a été supprimé </h3>");
      echo("<ul>");
      echo ("<li>id = " . $results . "</li>");
      echo("</ul>");
