@@ -22,9 +22,9 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
         <label>Choississez le nombre de doses à ajouter par vaccin (si le nombre entré est négatif, le nombre de doses du vaccin correspondant diminuera de la valeur choisie) : </label>
         <br>
         <?php
-            foreach ($results as $key1 => $value1) {
-                $label_vaccin = $value1["label"];
-                $id_vaccin = $value1["vaccin_id"];
+            foreach ($results as $key => $value) {
+                $label_vaccin = $value["label"];
+                $id_vaccin = $value["vaccin_id"];
                 echo ("<br>$label_vaccin");
                 echo ('<br><label for="doses">doses : </label>');
                 echo ("<input name='$id_vaccin' type='number' value='0'>");
