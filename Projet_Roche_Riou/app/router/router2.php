@@ -71,6 +71,7 @@ switch ($action) {
     
     case "rendezvousReadAll" :  
     case "rendezvousSelection" :
+    case "rendezvousInjection" :
         ControllerRendezvous::$action($args);
         break;
     
