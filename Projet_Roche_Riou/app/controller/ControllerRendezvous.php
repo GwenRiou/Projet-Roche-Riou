@@ -1,3 +1,4 @@
+
 <!-- ----- debut ControllerRendezvous -->
 <?php
 require_once '../model/ModelRendezvous.php';
@@ -27,24 +28,26 @@ class ControllerRendezvous {
     public static function RendezvousSelection() {
         $patient = $_GET['patient'];
         $patient_id = substr($patient, 0, 1); // on recupère l'id du patient
-
         $results = ModelRendezvous::getOne($patient_id);
         // affiche info 
-        //test 
-        if (empty($results)) {// Si le resultat est vide, c'est la première injection
+        if (empty($results[0])) {// Si le resultat est vide, c'est la première injection
             // affiche la liste des centres 
             // première injection
             $injection = 1;
+            $vaccin_id = 0;
+            echo "première injection";
             $centre = ModelCentre::getAllLabelId();
             include 'config.php';
             $vue = $root . '/app/view/rendezvous/viewCentre.php';
             if (DEBUG)
                 echo ("ControllerRendezvous : RendezvousReadAll : vue = $vue");
             require ($vue);
-        } else if (!empty($results[0])&& $results[0]['vaccin_id']!=3) {
+        } else if (empty($results[1]) && $results[0]['vaccin_id'] != 4) {
             //deuxième injection
             $injection = 2;
-            $centre = ModelCentre::getAllLabelId();
+            $vaccin_id = $results[0]['vaccin_id'];
+            echo "deuxième injection";
+            $centre = ModelCentre::getIdLabelVaccin($results[0]['vaccin_id']);
             include 'config.php';
             $vue = $root . '/app/view/rendezvous/viewCentre.php';
             if (DEBUG)
@@ -54,6 +57,10 @@ class ControllerRendezvous {
             // + demander l'untilisateur de choisir un centre
         } else {
             //afficher les infos du patient
+            $patient_nom = ModelPatient::getNomPrenom($results[0]['patient_id']);
+            $vaccin_label = ModelVaccin::getLabelfromId($results[0]['vaccin_id']);
+            $centre_1 = ModelCentre::getLabelfromId($results[0]['centre_id']);
+            if(!empty($results[1])){$centre_2 = ModelCentre::getLabelfromId($results[1]['centre_id']);}
             include 'config.php';
             $vue = $root . '/app/view/rendezvous/viewInfos.php';
             if (DEBUG)
@@ -67,8 +74,15 @@ class ControllerRendezvous {
         $patient_id = $_GET['patient_id'];
         $centre = substr($_GET['centre'], 0, 1);
         $injection = $_GET['injection'];
-        ModelRendezvous::Creation($patient_id, $centre, $injection);
+        echo $injection;
+        $vaccin_id = $_GET['vaccin_id'];
+        ModelRendezvous::Creation($patient_id, $centre, $injection, $vaccin_id);
         $results = ModelRendezvous::getOne($patient_id);
+
+        $patient_nom = ModelPatient::getNomPrenom($results[0]['patient_id']);
+        $vaccin_label = ModelVaccin::getLabelfromId($results[0]['vaccin_id']);
+        $centre_1 = ModelCentre::getLabelfromId($results[0]['centre_id']);
+        $centre_2 = ModelCentre::getLabelfromId($results[1]['centre_id']);
 
         include 'config.php';
         $vue = $root . '/app/view/rendezvous/viewInfos.php';
@@ -83,6 +97,7 @@ class ControllerRendezvous {
             echo ("controllerRendezvous:vinReadId:begin</br>");
         $results = ModelRendezvous::getAllId();
 
+        
         $target = $args['target'];
         if (DEBUG)
             echo("ControlerRendezvous:ReadId : target = $target</br>");
@@ -152,4 +167,5 @@ class ControllerRendezvous {
 }
 ?>
 <!-- ----- fin ControllerRendezvous -->
+
 

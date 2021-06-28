@@ -13,17 +13,17 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
 
             <?php
             
-            foreach ($results as $valeur){
+            if (!empty($results[1])){
+            echo ("Injection : ".$results[1]['injection']);
+            echo (", Nom : ".$patient_nom[0][0]. " prenom : ".$patient_nom[0][1] );
+            echo (", Vaccin : ".$vaccin_label[0]['Label']);
+            echo (", Centre : ".$centre_2[0][0]);
+            echo"<br>";}
+            echo ("Injection : ".$results[0]['injection']);
+            echo (", Nom : ".$patient_nom[0][0]. " prenom : ".$patient_nom[0][1] );
+            echo (", Vaccin : ".$vaccin_label[0]['Label']);
+            echo (", Centre : ".$centre_1[0][0]);
             
-              foreach($valeur as $cle => $val){
-                  
-                  if(is_numeric($cle)){}
-                  else{
-                    echo($cle." = ".$val."   ");
-                  }                  
-              }
-              echo"<br>";
-            }          
             ?>  
 
     </div>

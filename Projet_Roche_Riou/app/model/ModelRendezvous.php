@@ -1,8 +1,13 @@
+
 <!-- ----- debut ModelRendezvous -->
+
 <?php
 require_once 'Model.php';
+
 class ModelRendezvous {
+
     private $id, $patient_id, $vaccin_id;
+
     // pas possible d'avoir 2 constructeurs
     public function __construct($centre_id = NULL, $patient_id = NULL, $injection = NULL, $vaccin_id = NULL) {
         // valeurs nulles si pas de passage de parametres
@@ -13,30 +18,39 @@ class ModelRendezvous {
             $this->vaccin_id = $vaccin_id;
         }
     }
+
     function setCentre_id($centre_id) {
         $this->centre_id = $centre_id;
     }
+
     function setPatient_id($patient_id) {
         $this->patient_id = $patient_id;
     }
+
     function setInjection($injection) {
         $this->injection = $injection;
     }
+
     function setVaccin_id($vaccin_id) {
         $this->vaccin_id = $vaccin_id;
     }
+
     function getCentre_id() {
         return $this->centre_id;
     }
+
     function getPatient_id() {
         return $this->patient_id;
     }
+
     function getInjection() {
         return $this->injection;
     }
+
     function getVaccin_id() {
         return $this->vaccin_id;
     }
+
 // retourne une liste des id
     public static function getAllId() {
         try {
@@ -51,6 +65,7 @@ class ModelRendezvous {
             return NULL;
         }
     }
+
     public static function getMany($query) {
         try {
             $database = Model::getInstance();
@@ -63,7 +78,8 @@ class ModelRendezvous {
             return NULL;
         }
     }
-//fontion la 
+
+//fontion la
     public static function getAll() {
         try {
             $database = Model::getInstance();
@@ -77,6 +93,7 @@ class ModelRendezvous {
             return NULL;
         }
     }
+
     public static function getOne($id) {
         try {
             $database = Model::getInstance();
@@ -94,20 +111,8 @@ class ModelRendezvous {
             return NULL;
         }
     }
-    /* public static function getDistinctRegion(){
-      // FUNTION REGION ICI
-      try{
-      $database = Model::getInstance();
-      $query = "select distinct region from rendezvous";
-      $statement = $database->prepare($query);
-      $statement->execute();
-      $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelRendezvous");
-      return $results;
-      } catch (Exception $e) {
-      printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-      return NULL;
-      }
-      } */
+    
+
     public static function getRegionRendezvous() {
         // FUNTION REGION ICI
         try {
@@ -133,8 +138,9 @@ class ModelRendezvous {
             $tuple = $statement->fetch();
             $id = $tuple['0'];
             $id++;
+
             // ajout d'un nouveau tuple;
-            $query = "insert into rendezvous value (:id, :patient_id, :injection, :vaccin_id)";
+            $query = "insert into rendezvous values (:centre_id, :patient_id, :injection, :vaccin_id)";
             $statement = $database->prepare($query);
             $statement->execute([
                 'id' => $id,
@@ -149,17 +155,45 @@ class ModelRendezvous {
         }
     }
 
-    public static function creation($patient_id, $centre_id,$injection) {
+    public static function creation($patient_id, $centre_id, $injection,$vaccin_id) {
         try {
-             $database = Model::getInstance();             
-            // on choisit le vaccin
-            $query = "select vaccin_id from stock where centre_id = $centre_id AND max(quantite) ";            
+            $database = Model::getInstance();
+            
+            if ($injection == 1) {
+                $query = "SELECT vaccin_id,quantite FROM
+                (
+                    SELECT * FROM stock WHERE centre_id = '$centre_id' )AS stockCentre
+                    WHERE quantite = (SELECT MAX(quantite)FROM (SELECT * FROM stock WHERE centre_id = '$centre_id' )AS stockCentre);";
+                $statement = $database->prepare($query);
+                $statement->execute();
+                $vaccin_id = $statement->fetchAll();
+                
+                $vaccin_quantite = $vaccin_id[0][1];
+                $vaccin_quantite = $vaccin_quantite - 1;
+                $vaccin_id=$vaccin_id[0][0];
+                
+            } else if ($injection == 2) {
+                $query = "SELECT quantite FROM stock WHERE centre_id = :centre_id AND vaccin_id=:vaccin_id";
+                $statement = $database->prepare($query);
+                $statement->execute([
+                    'centre_id' => $centre_id,
+                    'vaccin_id' => $vaccin_id,
+                ]);
+                $vaccin_quantite = $statement->fetchAll();
+                
+                $vaccin_quantite=$vaccin_quantite[0][0];
+                $vaccin_quantite = $vaccin_quantite - 1;
+            }
+            
+
+            $query = "UPDATE  stock SET quantite=$vaccin_quantite WHERE centre_id = :centre_id AND vaccin_id =:vaccin_id";
             $statement = $database->prepare($query);
-            $statement->execute();
-            $vaccin_id = $statement->fetchAll();
+            $statement->execute([
+                'centre_id' => $centre_id,
+                'vaccin_id' => $vaccin_id,
+            ]);
 
-
-            $query = "insert into rendezvous value(:centre_id, :patient_id, :injection, :vaccin_id)";
+            $query = "insert into rendezvous values(:centre_id, :patient_id, :injection, :vaccin_id)";
             $statement = $database->prepare($query);
             $statement->execute([
                 'centre_id' => $centre_id,
@@ -174,26 +208,8 @@ class ModelRendezvous {
         }
     }
 
-    public static function delete($id) {
-        try {
-            // supprimer le tuple;
-            $database = Model::getInstance();
-            echo ("delete" . $id);
-            if ($id >= 610) {
-                echo ("delete" . $id);
-                $query = "DELETE from rendezvous where id=$id";
-                echo $query;
-                $statement = $database->prepare($query);
-                $statement->execute();
-            } else {
-                $id = -1;
-            }
-            return $id;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return -1;
-        }
-    }
+    
+
 }
 ?>
 <!-- ----- fin ModelRendezvous -->

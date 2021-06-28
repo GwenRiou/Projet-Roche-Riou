@@ -16,9 +16,12 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
                 <input type="hidden" name='action' value='rendezvousInjection'> 
 
                 <label for="id">Selectionner un centre : </label>
-                <input type="hidden" name="patient_id"  value=$id_patient>
-                <input type="hidden" name="injection"  value=$injection>
-                <select class="form-control" centre='centre' name='centre' style="width: 300">
+                <?php
+                echo('<input type="hidden" name="patient_id"  value='.$patient_id.'>');
+                echo('<input type="hidden" name="injection"  value='.$injection.'>');
+                echo('<input type="hidden" name="vaccin_id"  value='.$vaccin_id.'>');
+                ?>
+                <select class="form-control" centre='centre' name='centre' style="width:300">
                     <?php
                     // La liste des centres est dans une variable $centre             
                     foreach ($centre as $element) {

@@ -64,7 +64,7 @@ $target = $args['target'];
 
  public static function stockSelect($args) {
   if(DEBUG) echo("controllerStock:stockReadSelect:begin</br>");
-  $results = ModelCentre::getAllLabelWithVaccin();
+  $results = ModelCentre::getAllLabel();
   
   $target = $args['target'];
   if(DEBUG) echo("ControlerStock:ReadSelect : target = $target</br>");
@@ -105,34 +105,6 @@ $target = $args['target'];
   require ($vue);
  }
  
- public static function getCentreAndVaccin($args) {
-  // ajouter une validation des informations du formulaire
-  $centre = ModelCentre::getAllLabel();
-  $vaccin = ModelVaccin::getAllLabel();
-  
-  /*foreach($centre as $key => $value) {
-      $centreAssoc[$value['label']] = $value['id'];
-  }
-  foreach($vaccin as $key => $value) {
-      $vaccinAssoc[$value['label']] = $value['id'];
-  }*/
-  
-  $target = $args['target'];
-  // ----- Construction chemin de la vue
-  include 'config.php';
-  $vue = $root . '/app/view/stock/viewInsert.php';
-  require ($vue);
- }
- 
- public static function insertVaccinToStock() {
-  // ajouter une validation des informations du formulaire
-  $results = ModelStock::insert();
-  // ----- Construction chemin de la vue
-  include 'config.php';
-  $vue = $root . '/app/view/stock/viewInserted.php';
-  require ($vue);
- }
- 
  public static function stockDistinctRegion(){
   $results = ModelStock::getDistinctRegion();
    include 'config.php';
@@ -156,22 +128,12 @@ $target = $args['target'];
   require ($vue);
  }
  
- public static function chooseLimit($args) {
-  // ----- Construction chemin de la vue
-  include 'config.php';
-  $target = $args['target'];
-  $vue = $root . '/app/view/innovations/viewReapLimite.php';
-  if (DEBUG)
-   echo ("ControllerStock : chooseLimit : vue = $vue");
-  require ($vue);
- }
- 
 public static function reapprovisionnement() {
     $results = ModelStock::reapprovisionnement();
     
   // ----- Construction chemin de la vue
   include 'config.php';
-  $vue = $root . '/app/view/innovations/viewReap.php';
+  $vue = $root . '/app/view/innovations/reapprovisionnement.php';
   if (DEBUG)
    echo ("ControllerStock : reapprovisionnement : vue = $vue");
   require ($vue);

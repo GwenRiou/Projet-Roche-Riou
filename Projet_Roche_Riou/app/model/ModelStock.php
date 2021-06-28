@@ -153,52 +153,26 @@ class ModelStock {
     return NULL;         
      }
  }
- public static function insert() {
+ public static function insert($vaccin_id, $quantite) {
   try {
    $database = Model::getInstance();
 
    // recherche de la valeur de la clé = max(centre_id) + 1
-   /*
    $query = "select max(centre_id) from stock";
    $statement = $database->query($query);
    $tuple = $statement->fetch();
    $centre_id = $tuple['0'];
    $centre_id++;
-   */
-   
-    $query = "SELECT id FROM centre WHERE label = :label";
-    $statement = $database->prepare($query);
-    $statement->execute(['label' => $_GET['centre']]);
-    $centre_id = $statement->fetchColumn();
-   
-    $query = "SELECT id FROM vaccin WHERE label = :label";
-    $statement = $database->prepare($query);
-    $statement->execute(['label' => $_GET['vaccin']]);
-    $vaccin_id = $statement->fetchColumn();
-    
-    $query = "SELECT COUNT(*) FROM stock WHERE centre_id = :centre_id AND vaccin_id = :vaccin_id";
-    $statement = $database->prepare($query);
-    $statement->execute([
-      'centre_id' => $centre_id,
-      'vaccin_id' => $vaccin_id
-    ]);
-    $existe = $statement->fetchColumn();
-    $rc = 0;    //Return Code
-    
-    if($existe == 0) {
-        // ajout d'un nouveau tuple;
-        $query = "INSERT INTO stock value (:centre_id, :vaccin_id, :quantite)";
-        $statement = $database->prepare($query);
-        $statement->execute([
-          'centre_id' => $centre_id,
-          'vaccin_id' => $vaccin_id,
-          'quantite' => $_GET['quantite']
-        ]);
-        
-    } else {
-        $rc = -2;
-    }
-    return $rc;
+
+   // ajout d'un nouveau tuple;
+   $query = "insert into stock value (:centre_id, :vaccin_id, :quantite)";
+   $statement = $database->prepare($query);
+   $statement->execute([
+     'centre_id' => $centre_id,
+     'vaccin_id' => $vaccin_id,
+     'quantite' => $quantite
+   ]);
+   return $centre_id;
   } catch (PDOException $e) {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
    return -1;
@@ -248,11 +222,11 @@ class ModelStock {
  public static function reapprovisionnement() {
   try {
    $database = Model::getInstance();
-   //$limite = 5;
+   $limite = 5;
    //foreach($centre_label as $value) {
         $query = "SELECT c.label centre, v.label vaccin, s.quantite, :limite limite FROM centre c, stock s, vaccin v WHERE c.id = s.centre_id AND v.id = s.vaccin_id AND s.quantite < :limite ORDER BY c.label, v.label ASC";
         $statement = $database->prepare($query);
-        $statement->execute(['limite' => $_GET['limite']]);
+        $statement->execute(['limite' => $limite]);
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
    //}
    
