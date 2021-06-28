@@ -43,11 +43,13 @@ switch ($action) {
     case "centreReadAll" :
     case "centreReadOne" :
     case "centreReadId" :
+    case "centreReadLabel" :
     case "centreCreate" :
     case "centreCreated" :
     case "centreDistinctRegion" :
     case "centreRegionCentre" :
     case "centreDeleted" :
+    case "associationVaccin" :
         ControllerCentre::$action($args);
         break;
     
@@ -63,6 +65,8 @@ switch ($action) {
     case "stockReadOne" :
     case "stockUpdate" :
     case "reapprovisionnement" :
+    case "getCentreAndVaccin" :
+    case "insertVaccinToStock" :
         ControllerStock::$action($args);
         break;
     
@@ -81,6 +85,7 @@ switch ($action) {
         ControllerRecolte::$action($args);
         break;
     
+    case "chooseLimit" :    
     case "reaprovisionnement" :
         ControllerStock::$action($args);
         break;
