@@ -71,7 +71,7 @@ class ModelCentre {
   }
  }
 
- public static function getAllLabel() {
+ public static function getAllLabelWithVaccin() {
   try {
    $database = Model::getInstance();
    //On sélectionne les labels des centres ayant au moins un vaccin de disponible
@@ -85,7 +85,22 @@ class ModelCentre {
    return NULL;
   }
  }
- public static function getAllLabelId() {
+ 
+public static function getAllLabel() {
+     try {
+   $database = Model::getInstance();
+   $query = "SELECT label FROM centre";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);   
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+ 
+public static function getAllLabelId() {
   try {
    $database = Model::getInstance();
    //On sélectionne les labels des centres ayant au moins un vaccin de disponible
@@ -213,27 +228,51 @@ class ModelCentre {
   }
  }
 
+ public static function linkVaccinToCentre() {
+  try {
+   $database = Model::getInstance();
+   $query = "SELECT c.label centre, v.label vaccin, s.centre_id FROM centre c, vaccin v, stock s";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelCentre");
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+
  public static function update() {
   echo ("ModelCentre : update() TODO ....");
   return null;
  }
 
- public static function delete($id) {
+ public static function delete() {
  try {
+ // supprimer le tuple;
+    $database = Model::getInstance();
 
-   // supprimer le tuple;
-   $database = Model::getInstance();
-  echo ("delete".$id);
-   if ($id>=610){
-      echo ("delete".$id);
-   $query = "DELETE from centre where id=$id";
-   echo $query;
-   $statement = $database->prepare($query);
-   $statement->execute();
-   }else{
-       $id=-1;
-   }
-   return $id;
+    //On récupère la liste de vaccins du centre sélectionné avec une quantité > 0
+    $query = "SELECT v.label, s.quantite FROM stock s JOIN vaccin v ON s.vaccin_id = v.id WHERE s.centre_id = (SELECT c.id FROM centre c WHERE label = :label) AND s.quantite > 0 ORDER BY v.label ASC";
+    $statement = $database->prepare($query);
+    $statement->execute(['label' => $_GET['centre']]);
+    $listeVaccin = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    //Si la liste est vide (donc aucune quantité > 0), on peut supprimer le centre sélectionné
+    if(empty($listeVaccin)) {
+        //Suppression des stock dont l'id correspond à l'id du centre sélectionné
+        $query = "DELETE FROM stock WHERE centre_id = (SELECT id FROM centre WHERE label = :label)";
+        $statement = $database->prepare($query);
+        $statement->execute(['label' => $_GET['centre']]);
+
+        //Suppression du centre sélectionné
+        $query = "DELETE FROM centre WHERE label = :label";
+        $statement = $database->prepare($query);
+        $statement->execute(['label' => $_GET['centre']]);
+        return array();
+    } else {
+        return $listeVaccin;
+    }
   } catch (PDOException $e) {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
    return -1;
