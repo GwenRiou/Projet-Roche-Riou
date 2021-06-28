@@ -16,16 +16,16 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
     <form role="form" method='get' action='router2.php'>
       <div class="form-group">
         <input type="hidden" name='action' value='<?php echo($target);?>'>
-        <label for="label">Noms : </label> <select class="form-control" id='label' name='label' style="width: 200px">
+        <label for="label">Vaccin à mettre à jour : </label> <select class="form-control" id='label' name='label' style="width: 200px">
             <?php
             foreach ($results as $label) {
              echo ("<option>$label</option>");
             }
             ?>
         </select>
-        <label for="doses">doses : 
-            <input name="doses" type="number" value="0">
-        </label>
+       <br>
+        <label for="doses">Nombre de doses : </label><br>
+        <input name="doses" type="number" value="0">
       </div>
       <p/>
       <button class="btn btn-primary" type="submit">Submit form</button>
