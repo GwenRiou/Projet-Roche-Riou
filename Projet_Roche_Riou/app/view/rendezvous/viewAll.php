@@ -10,12 +10,7 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
       <?php
       include $root . '/app/view/fragment/fragmentCaveMenu.html';
       include $root . '/app/view/fragment/fragmentCaveJumbotron.html';
-      
       ?>
-
-    
-      
-    
     <form role="form" method='get' action='router2.php'>
       <div class="form-group">
         <input type="hidden" name='action' value='rendezvousSelection'>        

@@ -41,6 +41,19 @@ class ControllerVaccin {
   $vue = $root . '/app/view/vaccin/viewId.php';
   require ($vue);
  }
+ 
+ public static function vaccinReadLabel($args) {
+     if(DEBUG)echo ("controllerVaccin:vaccinReadLabel:begin</br>");
+  $results = ModelVaccin::getAllLabel();
+  
+  $target = $args['target'];
+  if(DEBUG) echo("ControlerVaccin:ReadLabel : target = $target</br>");
+  
+  // ----- Construction chemin de la vue
+  include 'config.php';
+  $vue = $root . '/app/view/vaccin/viewId.php';
+  require ($vue);
+ }
 
  // Affiche un vaccin particulier (id)
  public static function vaccinReadOne() {
@@ -73,18 +86,20 @@ class ControllerVaccin {
   $vue = $root . '/app/view/vaccin/viewInserted.php';
   require ($vue);
  }
+ // Affiche un formulaire pour récupérer les informations d'un nouveau vaccin.
+ // La clé est gérée par le systeme et pas par l'internaute
+ 
  public static function vaccinUpdate() {
   // ajouter une validation des informations du formulaire
-  $id = $_GET['id'];
+  $label = $_GET['label'];
   $doses = $_GET['doses'];
-  $results = ModelVaccin::update($id, $doses);
+  $results = ModelVaccin::update($label, $doses);
   // ----- Construction chemin de la vue
   include 'config.php';
   $vue = $root . '/app/view/vaccin/viewUpdate.php';
   require ($vue);
  }
- // Affiche un formulaire pour récupérer les informations d'un nouveau vaccin.
- // La clé est gérée par le systeme et pas par l'internaute
+ 
  public static function vaccinDeleted() {
   // ajouter une validation des informations du formulaire
   $id = $_GET['id'];

@@ -71,6 +71,35 @@ class ModelCentre {
   }
  }
 
+ public static function getAllLabelWithVaccin() {
+  try {
+   $database = Model::getInstance();
+   //On sélectionne les labels des centres ayant au moins un vaccin de disponible
+   $query = "SELECT DISTINCT c.label FROM centre c LEFT JOIN stock s ON s.centre_id = c.id WHERE s.quantite IS NOT NULL";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+ 
+  public static function getAllLabel() {
+  try {
+   $database = Model::getInstance();
+   $query = "SELECT label FROM centre";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+ 
  public static function getAll() {
   try {
    $database = Model::getInstance();
@@ -154,6 +183,20 @@ class ModelCentre {
   }
  }
 
+ public static function linkVaccinToCentre() {
+  try {
+   $database = Model::getInstance();
+   $query = "SELECT c.label centre, v.label vaccin, s.centre_id FROM centre c, vaccin v, stock s";
+   $statement = $database->prepare($query);
+   $statement->execute();
+   $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelCentre");
+   return $results;
+  } catch (PDOException $e) {
+   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+   return NULL;
+  }
+ }
+ 
  public static function update() {
   echo ("ModelCentre : update() TODO ....");
   return null;

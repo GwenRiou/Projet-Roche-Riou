@@ -6,6 +6,8 @@ require ('../controller/ControllerCentre.php');
 require ('../controller/ControllerPatient.php');
 require ('../controller/ControllerCave.php');
 require ('../controller/ControllerRecolte.php');
+require ('../controller/ControllerRendezvous.php');
+require ('../controller/ControllerStocks.php');
 // --- récupération de l'action passée dans l'URL
 $query_string = $_SERVER['QUERY_STRING'];
 
@@ -30,6 +32,7 @@ switch ($action) {
     case "vaccinReadAll" :
     case "vaccinReadOne" :
     case "vaccinReadId" :
+    case "vaccinReadLabel" :
     case "vaccinCreate" :
     case "vaccinCreated" :
     case "vaccinDeleted":
@@ -45,6 +48,7 @@ switch ($action) {
     case "centreDistinctRegion" :
     case "centreRegionCentre" :
     case "centreDeleted" :
+    case "associationVaccin" :
         ControllerCentre::$action($args);
         break;
     
@@ -52,6 +56,22 @@ switch ($action) {
     case "patientCreate" :
     case "patientCreated" :    
         ControllerPatient::$action($args);
+        break;
+    
+    case "stockReadAll" :  
+    case "stockReadTotal" :
+    case "stockSelect" :
+    case "stockReadOne" :
+    case "stockUpdate" :
+    case "reapprovisionnement" :
+    case "getCentreAndVaccin" :
+    case "insertVaccinToStock" :
+        ControllerStock::$action($args);
+        break;
+    
+    case "rendezvousReadAll" :  
+    case "rendezvousSelection" :
+        ControllerRendezvous::$action($args);
         break;
     
     case "recolteReadAll" :
@@ -63,8 +83,9 @@ switch ($action) {
         ControllerRecolte::$action($args);
         break;
     
-    case"mesPropositions" :
-        ControllerCave::$action($args);
+    case "chooseLimit" :
+    case "reaprovisionnement" :
+        ControllerStock::$action($args);
         break;
     // Tache par défaut
     default:
