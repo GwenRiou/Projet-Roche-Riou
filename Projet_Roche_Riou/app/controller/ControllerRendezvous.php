@@ -32,7 +32,7 @@ public static function RendezvousSelection(){
     // affiche info 
     
     //test 
-   /*if ($results===""){
+   if ($results===""){
         //création du patient dans la bases de donnés rendezvous
         // affiche la liste des centres 
         
@@ -43,14 +43,16 @@ public static function RendezvousSelection(){
     }
     else{
         //afficher les infos du patient 
-        
-    }*/
-    // ----- Construction chemin de la vue
-  include 'config.php';
+        include 'config.php';
+   
+  
         $vue = $root . '/app/view/rendezvous/viewInfos.php';
         if (DEBUG)
          echo ("ControllerRendezvous : RendezvousReadAll : vue = $vue");
         require ($vue);
+      }
+    // ----- Construction chemin de la vue
+ 
 }
  // Affiche un formulaire pour sélectionner un id qui existe
  public static function RendezvousReadId($args) {
