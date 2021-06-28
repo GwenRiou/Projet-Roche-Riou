@@ -37,7 +37,20 @@ $target = $args['target'];
   $vue = $root . '/app/view/centre/viewId.php';
   require ($vue);
  }
+ 
+ public static function centreReadLabel($args) {
+    if(DEBUG)echo ("controllerCentre:centreReadLabel:begin</br>");
+    $results = ModelCentre::getAllLabel();
 
+    $target = $args['target'];
+    if(DEBUG) echo("controllerCentre:centreDeleted : target = $target</br>");
+
+  // ----- Construction chemin de la vue
+  include 'config.php';
+  $vue = $root . '/app/view/innovations/viewSelectCentre.php';
+  require ($vue);
+ }
+ 
  // Affiche un Centre particulier (id)
  public static function CentreReadOne() {
   $Centre_id = $_GET['id'];
@@ -70,6 +83,13 @@ $target = $args['target'];
   require ($vue);
  }
  
+  public static function associationVaccin() {
+  $results = ModelCentre::linkVaccinToCentre();
+  include 'config.php';
+  $vue = $root . '/app/view/centre/viewDistinctRegion.php';
+  require ($vue);  
+ }
+ 
  public static function CentreDistinctRegion(){
   $results = ModelCentre::getDistinctRegion();
    include 'config.php';
@@ -84,12 +104,12 @@ $target = $args['target'];
  }
  public static function CentreDeleted() {
   // ajouter une validation des informations du formulaire
-  $id = $_GET['id'];
-  echo $id;
-  $results = ModelCentre::delete($id);
+  //$label = $_GET['centre'];
+
+  $results = ModelCentre::delete();
   // ----- Construction chemin de la vue
   include 'config.php';
-  $vue = $root . '/app/view/centre/viewDelete.php';
+  $vue = $root . '/app/view/innovations/viewCentreDeleted.php';
   require ($vue);
  }
 }
