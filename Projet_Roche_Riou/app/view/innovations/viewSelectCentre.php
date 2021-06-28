@@ -14,7 +14,7 @@ require ($root . '/app/view/fragment/fragmentCaveHeader.html');
     <form role="form" method='get' action='router2.php'>
       <div class="form-group">
         <input type="hidden" name='action' value='<?php echo($target);?>'>
-        <label for="centre">Choisissez le centre à supprimer : </label>
+        <label for="centre">Choisissez le centre à supprimer (seuls les centres n'ayant plus aucune dose peuvent être supprimés) : </label>
         <select class="form-control" id='centre' name='centre' style="width: 200px">
             <?php
             foreach ($results as $value) {
