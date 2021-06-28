@@ -153,7 +153,7 @@ class ModelStock {
     return NULL;         
      }
  }
- public static function insert($vaccin_id, $quantite) {
+ public static function insert() {
   try {
    $database = Model::getInstance();
 
@@ -164,15 +164,39 @@ class ModelStock {
    $centre_id = $tuple['0'];
    $centre_id++;
 
-   // ajout d'un nouveau tuple;
-   $query = "insert into stock value (:centre_id, :vaccin_id, :quantite)";
-   $statement = $database->prepare($query);
-   $statement->execute([
-     'centre_id' => $centre_id,
-     'vaccin_id' => $vaccin_id,
-     'quantite' => $quantite
-   ]);
-   return $centre_id;
+   $query = "SELECT id FROM centre WHERE label = :label";
+    $statement = $database->prepare($query);
+    $statement->execute(['label' => $_GET['centre']]);
+    $centre_id = $statement->fetchColumn();
+
+    $query = "SELECT id FROM vaccin WHERE label = :label";
+    $statement = $database->prepare($query);
+    $statement->execute(['label' => $_GET['vaccin']]);
+    $vaccin_id = $statement->fetchColumn();
+
+    $query = "SELECT COUNT(*) FROM stock WHERE centre_id = :centre_id AND vaccin_id = :vaccin_id";
+    $statement = $database->prepare($query);
+    $statement->execute([
+      'centre_id' => $centre_id,
+      'vaccin_id' => $vaccin_id
+    ]);
+    $existe = $statement->fetchColumn();
+    $rc = 0;    //Return Code
+
+    if($existe == 0) {
+        // ajout d'un nouveau tuple;
+        $query = "INSERT INTO stock value (:centre_id, :vaccin_id, :quantite)";
+        $statement = $database->prepare($query);
+        $statement->execute([
+          'centre_id' => $centre_id,
+          'vaccin_id' => $vaccin_id,
+          'quantite' => $_GET['quantite']
+        ]);
+
+    } else {
+        $rc = -2;
+    }
+    return $rc;
   } catch (PDOException $e) {
    printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
    return -1;
@@ -225,8 +249,8 @@ class ModelStock {
    $limite = 5;
    //foreach($centre_label as $value) {
         $query = "SELECT c.label centre, v.label vaccin, s.quantite, :limite limite FROM centre c, stock s, vaccin v WHERE c.id = s.centre_id AND v.id = s.vaccin_id AND s.quantite < :limite ORDER BY c.label, v.label ASC";
-        $statement = $database->prepare($query);
-        $statement->execute(['limite' => $limite]);
+        $statement = $database->prepare($query);        
+        $statement->execute(['limite' => $_GET['limite']]);
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
    //}
    
