@@ -1,4 +1,3 @@
-
 <!-- ----- debut ControllerRendezvous -->
 <?php
 require_once '../model/ModelRendezvous.php';
@@ -153,5 +152,4 @@ class ControllerRendezvous {
 }
 ?>
 <!-- ----- fin ControllerRendezvous -->
-
 
