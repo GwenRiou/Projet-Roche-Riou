@@ -70,13 +70,6 @@ $target = $args['target'];
   require ($vue);
  }
  
- public static function associationVaccin() {
-  $results = ModelCentre::linkVaccinToCentre();
-  include 'config.php';
-  $vue = $root . '/app/view/centre/viewDistinctRegion.php';
-  require ($vue);  
- }
- 
  public static function CentreDistinctRegion(){
   $results = ModelCentre::getDistinctRegion();
    include 'config.php';

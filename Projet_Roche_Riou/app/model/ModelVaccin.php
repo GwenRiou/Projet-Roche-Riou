@@ -70,20 +70,6 @@ class ModelVaccin {
    return NULL;
   }
  }
- 
- /*public static function getAllIdAndLabel() {
-  try {
-   $database = Model::getInstance();
-   $query = "SELECT id, label FROM vaccin";
-   $statement = $database->prepare($query);
-   $statement->execute();
-   $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-   return $results;
-  } catch (PDOException $e) {
-   printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-   return NULL;
-  }
- }*/
 
  public static function getMany($query) {
   try {

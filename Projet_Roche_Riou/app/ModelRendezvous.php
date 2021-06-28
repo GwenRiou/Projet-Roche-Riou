@@ -169,24 +169,40 @@ class ModelRendezvous {
         }
     }
 
-    public static function creation($patient_id, $centre_id,$injection) {
+    public static function creation($patient_id, $centre_label,$injection) {
         try {
-             $database = Model::getInstance();             
-            // on choisit le vaccin
-            $query = "select vaccin_id from stock where centre_id = $centre_id AND max(quantite) ";            
+             $database = Model::getInstance();
+            // on retrouve l'id du centre à partir du label 
+            $query = "select id from centre where label = $centre_label";
             $statement = $database->prepare($query);
             $statement->execute();
+            $centre_id = $statement->fetchAll();
+            // determine le vaccin max  
+            echo $query;
+            echo"<pre>";
+            printf($centre_id);
+            echo"</pre>";
+            
+            $query = "select vaccin_id from stock where centre_id = :centre_id max(quantite) ";
+            $statement = $database->prepare($query);
+            $statement->execute([
+                'centre_id' => $centre_id,
+            ]);
             $vaccin_id = $statement->fetchAll();
-              
-                       
+                
+            echo"<pre>";
+            printf($vaccin_id);
+            echo"</pre>";
+            
             $query = "insert into rendezvous value(:centre_id, :patient_id, :injection, :vaccin_id)";
             $statement = $database->prepare($query);
             $statement->execute([
                 'centre_id' => $centre_id,
-                'patient_id' => $patient_id,
+                'patient_id' => $id,
                 'injection' => $injection,
                 'vaccin_id' => $vaccin_id,
             ]);
+            echo $query;
             return null;
         } catch (PDOException $e) {
             printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
