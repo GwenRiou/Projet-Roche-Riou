@@ -98,13 +98,14 @@ class ModelRendezvous {
         try {
             $database = Model::getInstance();
             $query = "select * from rendezvous where patient_id = :id";
+            echo $query;
             $statement = $database->prepare($query);
             $statement->execute([
                 'id' => $id
             ]);
-
+            
             $results = $statement->fetchAll();
-
+            
             return $results;
         } catch (PDOException $e) {
             printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
@@ -142,7 +143,7 @@ class ModelRendezvous {
         }
     }
 
-    public static function insert($id) {
+    public static function insert($patient_id, $injection, $vaccin_id) {
         try {
             $database = Model::getInstance();
 
@@ -169,29 +170,9 @@ class ModelRendezvous {
         }
     }
 
-    public static function creation($patient_id, $centre_id,$injection) {
-        try {
-             $database = Model::getInstance();             
-            // on choisit le vaccin
-            $query = "select vaccin_id from stock where centre_id = $centre_id AND max(quantite) ";            
-            $statement = $database->prepare($query);
-            $statement->execute();
-            $vaccin_id = $statement->fetchAll();
-              
-                       
-            $query = "insert into rendezvous value(:centre_id, :patient_id, :injection, :vaccin_id)";
-            $statement = $database->prepare($query);
-            $statement->execute([
-                'centre_id' => $centre_id,
-                'patient_id' => $patient_id,
-                'injection' => $injection,
-                'vaccin_id' => $vaccin_id,
-            ]);
-            return null;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return -1;
-        }
+    public static function update() {
+        echo ("ModelRendezvous : update() TODO ....");
+        return null;
     }
 
     public static function delete($id) {

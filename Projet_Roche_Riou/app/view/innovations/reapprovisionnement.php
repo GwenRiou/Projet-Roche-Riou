@@ -8,7 +8,7 @@
 
         if (!empty($results)) {
     ?>
-        <h3>Liste des centres et leurs vaccins associés à réapprovisionner (quantité inférieure à <?php echo($results[0]['limite']);?>).</h3>
+        <h3>Liste des centres et leurs vaccins associés à réapprovisionner (quantité inférieure à <?php echo($_GET['limite']);?>).</h3>
         <br>
 
         <table class="table table-striped table-bordered">
@@ -23,7 +23,7 @@
         </table>
     <?php
         } else {
-            echo("<h3>Aucun vaccin ne nécessite un réapprovisionnement.</h3>");
+            echo("<h3>Aucun vaccin ne nécessite un réapprovisionnement (Aucune quantité inférieure à ".$_GET["limite"].").</h3>");
         }
     ?>
   </div>   
