@@ -6,7 +6,7 @@
     include $root. '/app/view/fragment/fragmentCaveMenu.html';
     include $root.'/app/view/fragment/fragmentCaveJumbotron.html';
    
-    include $root.'/public/documentation/documentation1.php';
+    include $root.'/public/documentation/documentation2.php';
     ?>
     </div>
   <?php
