@@ -1,5 +1,5 @@
 
-<!-- ----- debut Router1 -->
+<!-- ----- debut Router2 -->
 <?php
 require ('../controller/ControllerVaccin.php');
 require ('../controller/ControllerCentre.php');
@@ -82,7 +82,7 @@ switch ($action) {
         ControllerStock::$action($args);
         break;
     
-    case "Documentation1" :
+    case "Documentation" :
     case "PointDeVue" : 
         ControllerCave::$action($args);
         break;
@@ -92,5 +92,5 @@ switch ($action) {
         ControllerCave::$action($args);
 }
 ?>
-<!-- ----- Fin Router1 -->
+<!-- ----- Fin Router2 -->
 
