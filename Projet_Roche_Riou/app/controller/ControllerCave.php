@@ -1,5 +1,5 @@
 
-<!-- ----- debut ControllerVin -->
+<!-- ----- debut Controller -->
 <?php
 
 class ControllerCave {
@@ -13,12 +13,23 @@ class ControllerCave {
         require ($vue);
     }
 
-    public static function Documentation1() {
+    public static function documentation($args) {
+        // ----- Construction chemin de la vue
         include 'config.php';
-        $vue = $root . '/app/view/Documentation/documentation1.php';
-
-        if (DEBUG)
-            echo ("ControllerCave : mes propositions : vue = $vue");
+        switch ($args['target']) {
+            case 1 :
+                $vue = $root . '/public/documentation/documentation1.php';
+            break;
+            case 2 :
+                $vue = $root . '/public/documentation/documentation2.php';
+            break;
+            case 3 :
+                $vue = $root . '/public/documentation/documentation3.php';
+            break;
+            default:
+                $vue = $root . '/app/view/viewCaveAccueil.php';
+            break;
+        }
         require ($vue);
     }
     
@@ -32,6 +43,6 @@ class ControllerCave {
     }
 }
 ?>
-<!-- ----- fin ControllerVin -->
+<!-- ----- fin Controller -->
 
 
