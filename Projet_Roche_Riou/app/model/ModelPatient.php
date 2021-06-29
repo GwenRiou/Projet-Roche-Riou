@@ -125,21 +125,6 @@ class ModelPatient {
         }
     }
 
-    /* public static function getDistinctRegion(){
-      // FUNTION REGION ICI
-      try{
-      $database = Model::getInstance();
-      $query = "select distinct region from patient";
-      $statement = $database->prepare($query);
-      $statement->execute();
-      $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPatient");
-      return $results;
-      } catch (Exception $e) {
-      printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-      return NULL;
-      }
-      } */
-
     public static function getRegionPatient() {
         // FUNTION REGION ICI
         try {
@@ -175,33 +160,6 @@ class ModelPatient {
                 'prenom' => $prenom,
                 'adresse' => $adresse
             ]);
-            return $id;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return -1;
-        }
-    }
-
-    public static function update() {
-        echo ("ModelPatient : update() TODO ....");
-        return null;
-    }
-
-    public static function delete($id) {
-        try {
-
-            // supprimer le tuple;
-            $database = Model::getInstance();
-            echo ("delete" . $id);
-            if ($id >= 610) {
-                echo ("delete" . $id);
-                $query = "DELETE from patient where id=$id";
-                echo $query;
-                $statement = $database->prepare($query);
-                $statement->execute();
-            } else {
-                $id = -1;
-            }
             return $id;
         } catch (PDOException $e) {
             printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
