@@ -81,6 +81,11 @@ switch ($action) {
     case "reaprovisionnement" :
         ControllerStock::$action($args);
         break;
+    
+    case "Documentation1" :
+    case "PointDeVue" : 
+        ControllerCave::$action($args);
+        break;
     // Tache par défaut
     default:
         $action = "caveAccueil";
