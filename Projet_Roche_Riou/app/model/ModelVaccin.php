@@ -172,29 +172,6 @@ class ModelVaccin {
             return -1;
         }
     }
-
-    public static function delete($id) {
-        try {
-
-            // supprimer le tuple;
-            $database = Model::getInstance();
-
-
-            if ($id >= 101) {
-                $query = "DELETE from vaccin where id=$id";
-
-                $statement = $database->prepare($query);
-                $statement->execute();
-            } else {
-                $id = -1;
-            }
-            return $id;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return -1;
-        }
-    }
-
 }
 ?>
 <!-- ----- fin ModelVaccin -->
