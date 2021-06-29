@@ -69,19 +69,7 @@ $target = $args['target'];
   $vue = $root . '/app/view/patient/viewInserted.php';
   require ($vue);
  }
- 
- public static function PatientDistinctRegion(){
-  $results = ModelPatient::getDistinctRegion();
-   include 'config.php';
-  $vue = $root . '/app/view/patient/viewDistinctRegion.php';
-  require ($vue);  
- }
- public static function PatientRegionPatient(){
-  $results = ModelPatient::getRegionPatient();
-   include 'config.php';
-  $vue = $root . '/app/view/patient/viewRegionPatient.php';
-  require ($vue);  
- }
+
  public static function PatientDeleted() {
   // ajouter une validation des informations du formulaire
   $id = $_GET['id'];
