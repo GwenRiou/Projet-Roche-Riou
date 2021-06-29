@@ -18,13 +18,13 @@ class ControllerCave {
         include 'config.php';
         switch ($args['target']) {
             case 1 :
-                $vue = $root . '/app/view/documentation/documentation1.php';
+                $vue = $root . '/app/view/Documentation/documentation1.php';
             break;
             case 2 :
-                $vue = $root . '/app/view/documentation/documentation2.php';
+                $vue = $root . '/app/view/Documentation/documentation2.php';
             break;
             case 3 :
-                $vue = $root . '/app/view/documentation/documentation3.php';
+                $vue = $root . '/app/view/Documentation/documentation3.php';
             break;
             default:
                 $vue = $root . '/app/view/viewCaveAccueil.php';
