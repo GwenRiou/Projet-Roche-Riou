@@ -1,5 +1,5 @@
 
-<ul> <h1>Lien vers l'adresse du centre.</h1>
+<ul> <h2>Lien vers l'adresse du centre.</h2>
     <li>Cliquer sur l'adresse dans la liste des centres ouvre googlemaps avec l'adresse du centre.
     </li>
     <li> Pour réaliser l'innovation, on utilise le lien " http://maps.google.com/maps?f=d&amp;daddr= "
