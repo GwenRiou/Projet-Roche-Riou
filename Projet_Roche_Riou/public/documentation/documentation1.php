@@ -9,5 +9,3 @@
          et donc choisir plus facilement.
     </li>    
 </ul>
-
-
