@@ -5,7 +5,6 @@ require ('../controller/ControllerVaccin.php');
 require ('../controller/ControllerCentre.php');
 require ('../controller/ControllerPatient.php');
 require ('../controller/ControllerCave.php');
-require ('../controller/ControllerRecolte.php');
 require ('../controller/ControllerRendezvous.php');
 require ('../controller/ControllerStocks.php');
 // --- récupération de l'action passée dans l'URL
@@ -76,14 +75,7 @@ switch ($action) {
         ControllerRendezvous::$action($args);
         break;
     
-    case "recolteReadAll" :
-    case "recolteReadOne" :
-    case "recolteReadId" :
-    case "recolteCreate" :        
-    case "recolteCreated" :
-    case "recolteDeleted" :
-        ControllerRecolte::$action($args);
-        break;
+
     
     case "chooseLimit" :    
     case "reaprovisionnement" :
