@@ -126,44 +126,7 @@ class ControllerRendezvous {
         $vue = $root . '/app/view/rendezvous/viewInsert.php';
         require ($vue);
     }
-
-    // Affiche un formulaire pour récupérer les informations d'un nouveau Rendezvous.
-    // La clé est gérée par le systeme et pas par l'internaute
-    public static function RendezvousCreated() {
-        // ajouter une validation des informations du formulaire
-        $results = ModelRendezvous::insert(
-                        htmlspecialchars($_GET['nom']), htmlspecialchars($_GET['prenom']), htmlspecialchars($_GET['adresse'])
-        );
-        // ----- Construction chemin de la vue
-        include 'config.php';
-        $vue = $root . '/app/view/rendezvous/viewInserted.php';
-        require ($vue);
-    }
-
-    public static function RendezvousDistinctRegion() {
-        $results = ModelRendezvous::getDistinctRegion();
-        include 'config.php';
-        $vue = $root . '/app/view/rendezvous/viewDistinctRegion.php';
-        require ($vue);
-    }
-
-    public static function RendezvousRegionRendezvous() {
-        $results = ModelRendezvous::getRegionRendezvous();
-        include 'config.php';
-        $vue = $root . '/app/view/rendezvous/viewRegionRendezvous.php';
-        require ($vue);
-    }
-
-    public static function RendezvousDeleted() {
-        // ajouter une validation des informations du formulaire
-        $id = $_GET['id'];
-        $results = ModelRendezvous::delete($id);
-        // ----- Construction chemin de la vue
-        include 'config.php';
-        $vue = $root . '/app/view/rendezvous/viewDelete.php';
-        require ($vue);
-    }
-
+   
 }
 ?>
 <!-- ----- fin ControllerRendezvous -->
