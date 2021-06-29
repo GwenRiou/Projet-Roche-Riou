@@ -113,20 +113,6 @@ class ModelRendezvous {
     }
     
 
-    public static function getRegionRendezvous() {
-        // FUNTION REGION ICI
-        try {
-            $database = Model::getInstance();
-            $query = "select region,count(*) from rendezvous group by region";
-            $statement = $database->prepare($query);
-            $statement->execute();
-            $results = $statement->fetchAll();
-            return $results;
-        } catch (Exception $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return NULL;
-        }
-    }
 
     public static function insert($id) {
         try {
