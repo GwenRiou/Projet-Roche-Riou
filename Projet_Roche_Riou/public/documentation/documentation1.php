@@ -6,7 +6,7 @@
          sur lequel on vient ajouter l'adresse du centre que l'on a récupéré dans la base de données.<
     </li>
     <li> On a réalisé cette innovation pour que l'utilisateur puisse plus facilement se situer où sont les centres 
-         et donc choisir pour facilement.
+         et donc choisir plus facilement.
     </li>    
 </ul>
 
